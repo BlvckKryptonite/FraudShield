@@ -1,0 +1,144 @@
+{
+  "total_transactions": 49,
+  "detection_method": "rules",
+  "analysis_timestamp": "2025-07-26T00:15:55.804019",
+  "parameters": {
+    "amount_threshold": 10000,
+    "time_window_minutes": 5
+  },
+  "flags": {
+    "high_amount": 4,
+    "rapid_transactions": 3,
+    "unexpected_location": 7
+  },
+  "total_flagged": 13,
+  "flagged_transactions": [
+    {
+      "transaction_id": "TXN002",
+      "flag_type": "high_amount",
+      "reason": "High amount transaction: $12,000.00 exceeds threshold of $10,000.00",
+      "severity": "HIGH",
+      "confidence": 0.9
+    },
+    {
+      "transaction_id": "TXN007",
+      "flag_type": "high_amount",
+      "reason": "High amount transaction: $25,000.00 exceeds threshold of $10,000.00; Suspicious location pattern detected: offshore",
+      "severity": "HIGH",
+      "confidence": 0.9
+    },
+    {
+      "transaction_id": "TXN009",
+      "flag_type": "high_amount",
+      "reason": "High amount transaction: $15,000.00 exceeds threshold of $10,000.00",
+      "severity": "HIGH",
+      "confidence": 0.9
+    },
+    {
+      "transaction_id": "TXN041",
+      "flag_type": "high_amount",
+      "reason": "High amount transaction: $50,000.00 exceeds threshold of $10,000.00",
+      "severity": "HIGH",
+      "confidence": 0.9
+    },
+    {
+      "transaction_id": "TXN001",
+      "flag_type": "rapid_transactions",
+      "reason": "Rapid transactions: 3 transactions in 5 minutes from user USER001",
+      "severity": "MEDIUM",
+      "confidence": 0.8
+    },
+    {
+      "transaction_id": "TXN003",
+      "flag_type": "rapid_transactions",
+      "reason": "Rapid transactions: 3 transactions in 5 minutes from user USER001",
+      "severity": "MEDIUM",
+      "confidence": 0.8
+    },
+    {
+      "transaction_id": "TXN004",
+      "flag_type": "rapid_transactions",
+      "reason": "Rapid transactions: 3 transactions in 5 minutes from user USER001",
+      "severity": "MEDIUM",
+      "confidence": 0.8
+    },
+    {
+      "transaction_id": "TXN017",
+      "flag_type": "suspicious_location",
+      "reason": "Suspicious location pattern detected: unknown",
+      "severity": "MEDIUM",
+      "confidence": 0.7
+    },
+    {
+      "transaction_id": "TXN019",
+      "flag_type": "high_risk_location",
+      "reason": "High-risk location: Somalia",
+      "severity": "HIGH",
+      "confidence": 0.85
+    },
+    {
+      "transaction_id": "TXN025",
+      "flag_type": "suspicious_location",
+      "reason": "Suspicious location pattern detected: Remote",
+      "severity": "MEDIUM",
+      "confidence": 0.7
+    },
+    {
+      "transaction_id": "TXN028",
+      "flag_type": "suspicious_location",
+      "reason": "Suspicious location pattern detected: anonymous",
+      "severity": "MEDIUM",
+      "confidence": 0.7
+    },
+    {
+      "transaction_id": "TXN029",
+      "flag_type": "suspicious_location",
+      "reason": "Suspicious location pattern detected: hidden",
+      "severity": "MEDIUM",
+      "confidence": 0.7
+    },
+    {
+      "transaction_id": "TXN038",
+      "flag_type": "high_risk_location",
+      "reason": "High-risk location: Afghanistan",
+      "severity": "HIGH",
+      "confidence": 0.85
+    }
+  ],
+  "flag_type_statistics": {
+    "high_amount": {
+      "count": 4,
+      "avg_confidence": 0.9
+    },
+    "rapid_transactions": {
+      "count": 3,
+      "avg_confidence": 0.8
+    },
+    "suspicious_location": {
+      "count": 4,
+      "avg_confidence": 0.7
+    },
+    "high_risk_location": {
+      "count": 2,
+      "avg_confidence": 0.85
+    }
+  },
+  "severity_distribution": {
+    "HIGH": 6,
+    "MEDIUM": 7,
+    "LOW": 0
+  },
+  "risk_assessment": {
+    "fraud_rate_percentage": 26.53,
+    "risk_level": "HIGH",
+    "high_severity_count": 6,
+    "recommendations": [
+      "HIGH ALERT: Fraud rate exceeds 5%. Immediate investigation recommended.",
+      "Consider implementing additional transaction monitoring controls.",
+      "Review high-amount transaction thresholds and approval processes.",
+      "Implement velocity controls to prevent rapid successive transactions.",
+      "Consider implementing geo-location verification for unusual location patterns.",
+      "Priority investigation required for 6 high-severity alerts."
+    ]
+  }
+}

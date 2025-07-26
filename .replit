@@ -1,0 +1,37 @@
+modules = ["python-3.11"]
+
+[nix]
+channel = "stable-25_05"
+packages = ["glibcLocales"]
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "FraudShield"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "fraudshield_test"
+
+[[workflows.workflow]]
+name = "FraudShield"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pip install pandas numpy scikit-learn colorama tabulate && python fraudshield.py data/sample_transactions.csv --method both --threshold 10000 --time-window 5"
+
+[[workflows.workflow]]
+name = "fraudshield_test"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pip install pandas numpy scikit-learn colorama tabulate && python fraudshield.py data/sample_transactions.csv --method both --threshold 10000"
