@@ -26,7 +26,7 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "pip install pandas numpy scikit-learn colorama tabulate && python fraudshield.py data/sample_transactions.csv --method both --threshold 10000 --time-window 5"
+args = "pip install pandas numpy scikit-learn colorama tabulate && python cli/fraudshield.py data/sample_transactions.csv --method both --threshold 10000 --time-window 5"
 
 [[workflows.workflow]]
 name = "fraudshield_test"

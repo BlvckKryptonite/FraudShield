@@ -51,16 +51,16 @@ pip install pandas numpy scikit-learn colorama tabulate
 
 ```bash
 # Analyze transactions with both rule-based and ML detection
-python fraudshield.py data/sample_transactions.csv
+python cli/fraudshield.py data/sample_transactions.csv
 
 # Use only rule-based detection with custom threshold
-python fraudshield.py data/transactions.csv --method rules --threshold 5000
+python cli/fraudshield.py data/transactions.csv --method rules --threshold 5000
 
 # ML-only detection for behavioral anomalies
-python fraudshield.py data/transactions.csv --method ml
+python cli/fraudshield.py data/transactions.csv --method ml
 
 # Custom configuration with extended time window
-python fraudshield.py data/transactions.csv --threshold 15000 --time-window 10
+python cli/fraudshield.py data/transactions.csv --threshold 15000 --time-window 10
 ```
 
 ---
@@ -70,7 +70,7 @@ python fraudshield.py data/transactions.csv --threshold 15000 --time-window 10
 ### Command Structure
 
 ```bash
-python fraudshield.py [CSV_FILE] [OPTIONS]
+python cli/fraudshield.py [CSV_FILE] [OPTIONS]
 ```
 
 ### Available Options
@@ -156,7 +156,9 @@ Uses Isolation Forest algorithm for unsupervised anomaly detection:
 
 ```
 FraudShield/
-├── fraudshield.py          # Main CLI application entry point
+├── cli/                    # Command-line interface
+│   └── fraudshield.py     # CLI entry point with argument parsing
+├── fraudshield.py          # Core application logic and analysis engine
 ├── detection/              # Detection algorithms module
 │   ├── __init__.py        # Package initialization
 │   ├── rule_based.py      # Business rule implementations
@@ -165,6 +167,9 @@ FraudShield/
 │   ├── __init__.py        # Package initialization
 │   ├── data_processor.py  # CSV processing and validation
 │   └── report_generator.py # Export and reporting functionality
+├── tests/                  # Unit testing suite
+│   ├── __init__.py        # Test package initialization
+│   └── test_rule_based.py # Rule-based detection tests
 ├── data/                   # Sample datasets
 │   └── sample_transactions.csv
 └── reports/                # Generated output files
@@ -306,19 +311,29 @@ export ML_CONTAMINATION=0.2
 **Compliance Monitoring**
 ```bash
 # Daily compliance scan with conservative thresholds
-python fraudshield.py daily_transactions.csv --threshold 5000 --time-window 3 --method both
+python cli/fraudshield.py daily_transactions.csv --threshold 5000 --time-window 3 --method both
 ```
 
 **Behavioral Analysis**
 ```bash
 # Focus on ML detection for unknown patterns
-python fraudshield.py user_behavior.csv --method ml --quiet > analysis.log
+python cli/fraudshield.py user_behavior.csv --method ml --quiet > analysis.log
 ```
 
 **High-Volume Processing**
 ```bash
 # Process large datasets without CSV export for performance
-python fraudshield.py large_dataset.csv --no-csv --threshold 25000
+python cli/fraudshield.py large_dataset.csv --no-csv --threshold 25000
+```
+
+**Testing & Development**
+```bash
+# Run unit tests
+python tests/test_rule_based.py
+
+# Programmatic usage (for API integration)
+from fraudshield import run_analysis
+success = run_analysis('data.csv', method='both', show_banner=False)
 ```
 
 ---

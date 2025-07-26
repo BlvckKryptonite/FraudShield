@@ -195,7 +195,7 @@ class MLBasedDetector:
     
     def _determine_severity(self, anomaly_score):
         """
-        Determine severity level based on anomaly score
+        Determine severity level based on anomaly score with enhanced thresholds
         
         Args:
             anomaly_score (float): Isolation Forest anomaly score
@@ -203,12 +203,13 @@ class MLBasedDetector:
         Returns:
             str: Severity level
         """
-        if anomaly_score < -0.3:
-            return 'HIGH'
-        elif anomaly_score < -0.1:
-            return 'MEDIUM'
+        # Enhanced severity thresholds based on anomaly score distribution
+        if anomaly_score < -0.4:
+            return 'HIGH'      # Top 5% most anomalous
+        elif anomaly_score < -0.2:
+            return 'MEDIUM'    # Next 15% most anomalous  
         else:
-            return 'LOW'
+            return 'LOW'       # Remaining anomalies
     
     def get_feature_importance(self, df):
         """

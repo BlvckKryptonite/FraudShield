@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """
-FraudShield - A Python CLI fraud detection tool for financial transactions
-Author: FraudShield Team
+FraudShield - Core application logic for fraud detection
+Author: FraudShield Team  
 Date: July 26, 2025
 """
 
-import argparse
 import sys
 import os
 from datetime import datetime
@@ -145,7 +144,7 @@ class FraudShield:
             return False
     
     def _remove_duplicate_flags(self, flagged_transactions):
-        """Remove duplicate flagged transactions"""
+        """Remove duplicate flagged transactions with enhanced deduplication"""
         seen_ids = set()
         unique_flags = []
         
@@ -159,9 +158,29 @@ class FraudShield:
                     if existing['transaction_id'] == flag['transaction_id']:
                         if flag['reason'] not in existing['reason']:
                             existing['reason'] += f"; {flag['reason']}"
+                        # Update severity to highest level found
+                        severity_levels = {'LOW': 1, 'MEDIUM': 2, 'HIGH': 3}
+                        if severity_levels.get(flag['severity'], 0) > severity_levels.get(existing['severity'], 0):
+                            existing['severity'] = flag['severity']
+                        # Update confidence to highest found
+                        if flag['confidence'] > existing['confidence']:
+                            existing['confidence'] = flag['confidence']
                         break
         
         return unique_flags
+    
+    def _generate_transaction_hash(self, transaction):
+        """Generate hash for potential duplicate detection (future enhancement)"""
+        import hashlib
+        # Create composite key from critical fields
+        key_fields = [
+            str(transaction.get('user_id', '')),
+            str(transaction.get('amount', '')),
+            str(transaction.get('merchant', '')),
+            str(transaction.get('timestamp', ''))[:16]  # Minute-level precision
+        ]
+        composite_key = '|'.join(key_fields)
+        return hashlib.md5(composite_key.encode()).hexdigest()[:8]
     
     def _display_results(self, df, flagged_transactions, summary):
         """Display analysis results in terminal"""
@@ -221,88 +240,40 @@ class FraudShield:
         else:
             print(f"\n{Fore.GREEN}✅ No suspicious transactions detected!{Style.RESET_ALL}")
 
-def main():
-    """Main entry point"""
-    parser = argparse.ArgumentParser(
-        description="FraudShield - Financial Transaction Fraud Detection Tool",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  python fraudshield.py data/sample_transactions.csv
-  python fraudshield.py data/transactions.csv --method rules --threshold 5000
-  python fraudshield.py data/transactions.csv --method ml --no-csv
-  python fraudshield.py data/transactions.csv --time-window 10 --no-json
-        """
-    )
+def run_analysis(csv_file, method='both', amount_threshold=10000, 
+                 time_window=5, export_csv=True, export_json=True, 
+                 show_banner=True):
+    """
+    Main analysis function that can be called programmatically
     
-    parser.add_argument(
-        'csv_file',
-        help='Path to the CSV file containing transaction data'
-    )
-    
-    parser.add_argument(
-        '--method', '-m',
-        choices=['rules', 'ml', 'both'],
-        default='both',
-        help='Detection method to use (default: both)'
-    )
-    
-    parser.add_argument(
-        '--threshold', '-t',
-        type=float,
-        default=10000,
-        help='Amount threshold for high-value transaction detection (default: 10000)'
-    )
-    
-    parser.add_argument(
-        '--time-window', '-w',
-        type=int,
-        default=5,
-        help='Time window in minutes for rapid transaction detection (default: 5)'
-    )
-    
-    parser.add_argument(
-        '--no-csv',
-        action='store_true',
-        help='Skip CSV export of flagged transactions'
-    )
-    
-    parser.add_argument(
-        '--no-json',
-        action='store_true',
-        help='Skip JSON export of summary report'
-    )
-    
-    parser.add_argument(
-        '--quiet', '-q',
-        action='store_true',
-        help='Suppress banner output'
-    )
-    
-    args = parser.parse_args()
-    
+    Args:
+        csv_file (str): Path to CSV file
+        method (str): Detection method ('rules', 'ml', 'both')
+        amount_threshold (float): Threshold for high-amount detection
+        time_window (int): Time window in minutes for rapid transactions
+        export_csv (bool): Export flagged transactions to CSV
+        export_json (bool): Export summary report to JSON
+        show_banner (bool): Display banner output
+        
+    Returns:
+        bool: True if analysis completed successfully
+    """
     # Create FraudShield instance
     fraud_shield = FraudShield()
     
-    # Print banner unless quiet mode
-    if not args.quiet:
+    # Print banner unless suppressed
+    if show_banner:
         fraud_shield.print_banner()
     
     # Ensure reports directory exists
     os.makedirs('reports', exist_ok=True)
     
     # Run analysis
-    success = fraud_shield.analyze_transactions(
-        csv_file=args.csv_file,
-        method=args.method,
-        amount_threshold=args.threshold,
-        time_window=args.time_window,
-        export_csv=not args.no_csv,
-        export_json=not args.no_json
+    return fraud_shield.analyze_transactions(
+        csv_file=csv_file,
+        method=method,
+        amount_threshold=amount_threshold,
+        time_window=time_window,
+        export_csv=export_csv,
+        export_json=export_json
     )
-    
-    # Exit with appropriate code
-    sys.exit(0 if success else 1)
-
-if __name__ == "__main__":
-    main()

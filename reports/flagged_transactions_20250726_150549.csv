@@ -1,0 +1,14 @@
+transaction_id,user_id,timestamp,amount,merchant,location,flag_type,reason,severity,confidence
+TXN002,USER002,2024-07-26 09:20:00,12000.0,Luxury Cars Inc,New York,high_amount,"High amount transaction: $12,000.00 exceeds threshold of $10,000.00",HIGH,0.9
+TXN007,USER002,2024-07-26 11:30:00,25000.0,Investment Broker,offshore,high_amount,"High amount transaction: $25,000.00 exceeds threshold of $10,000.00; Suspicious location pattern detected: offshore",HIGH,0.9
+TXN009,USER001,2024-07-26 14:45:00,15000.0,Real Estate Agency,New York,high_amount,"High amount transaction: $15,000.00 exceeds threshold of $10,000.00",HIGH,0.9
+TXN041,USER028,2024-07-27 10:00:00,50000.0,Real Estate Purchase,New York,high_amount,"High amount transaction: $50,000.00 exceeds threshold of $10,000.00",HIGH,0.9
+TXN019,USER001,2024-07-26 19:15:00,890.5,Electronics Store,Somalia,high_risk_location,High-risk location: Somalia,HIGH,0.85
+TXN038,USER001,2024-07-27 08:30:00,1200.0,Medical Center,Afghanistan,high_risk_location,High-risk location: Afghanistan,HIGH,0.85
+TXN001,USER001,2024-07-26 09:15:00,45.99,Coffee Shop Central,New York,rapid_transactions,Rapid transactions: 3 transactions in 5 minutes from user USER001,MEDIUM,0.8
+TXN003,USER001,2024-07-26 09:16:00,47.5,Gas Station Quick,New York,rapid_transactions,Rapid transactions: 3 transactions in 5 minutes from user USER001,MEDIUM,0.8
+TXN004,USER001,2024-07-26 09:17:00,35.75,Pharmacy Plus,New York,rapid_transactions,Rapid transactions: 3 transactions in 5 minutes from user USER001,MEDIUM,0.8
+TXN017,USER002,2024-07-26 18:30:00,5000.0,Wire Transfer,unknown,suspicious_location,Suspicious location pattern detected: unknown,MEDIUM,0.7
+TXN025,USER016,2024-07-26 22:30:00,345.6,Online Marketplace,Remote,suspicious_location,Suspicious location pattern detected: Remote,MEDIUM,0.7
+TXN028,USER002,2024-07-26 23:07:00,7500.0,Money Transfer,anonymous,suspicious_location,Suspicious location pattern detected: anonymous,MEDIUM,0.7
+TXN029,USER002,2024-07-26 23:09:00,9200.0,Investment Platform,hidden,suspicious_location,Suspicious location pattern detected: hidden,MEDIUM,0.7
