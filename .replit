@@ -14,17 +14,24 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "FraudShield Dashboard"
+args = "FraudShield"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "fraudshield_test"
 
 [[workflows.workflow]]
-name = "FraudShield Dashboard"
+name = "FraudShield"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "streamlit run app.py --server.port=5000 --server.address=0.0.0.0"
-waitForPort = 5000
+args = "pip install pandas numpy scikit-learn colorama tabulate && python fraudshield.py data/sample_transactions.csv --method both --threshold 10000 --time-window 5"
 
-[[ports]]
-localPort = 5000
-externalPort = 80
+[[workflows.workflow]]
+name = "fraudshield_test"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pip install pandas numpy scikit-learn colorama tabulate && python fraudshield.py data/sample_transactions.csv --method both --threshold 10000"
