@@ -440,6 +440,6 @@ This project is developed for portfolio demonstration and educational purposes. 
 
 ---
 
-**Created by [Your Name]** | [Portfolio Website] | [LinkedIn Profile]
+**Designed and developed by Muma Kalobwe** | [Portfolio Website] | [LinkedIn Profile]
 
 *Showcasing expertise in Python development, data science, machine learning, and financial technology solutions.*
